@@ -1,0 +1,15 @@
+com\fastcar\FastCarApplication.class
+com\fastcar\repository\ContratRepository.class
+com\fastcar\controller\VoitureController.class
+com\fastcar\model\Agent.class
+com\fastcar\controller\ContratController.class
+com\fastcar\model\Contrat.class
+com\fastcar\repository\VoitureRepository.class
+com\fastcar\controller\AgentController.class
+com\fastcar\repository\AgentRepository.class
+com\fastcar\model\Voiture.class
+com\fastcar\controller\StatistiqueController.class
+com\fastcar\model\Client.class
+com\fastcar\controller\ClientController.class
+com\fastcar\model\EtatVoiture.class
+com\fastcar\repository\ClientRepository.class

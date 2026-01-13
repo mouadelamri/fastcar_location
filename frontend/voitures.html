@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastCar - Gestion des Voitures</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/voitures.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- Même sidebar que index.html -->
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <h2>FastCar<span>Location</span></h2>
+            </div>
+            <nav>
+                <a href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="voitures.html" class="active">
+                    <i class="fas fa-car"></i>
+                    <span>Voitures</span>
+                </a>
+                <a href="clients.html">
+                    <i class="fas fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="agents.html">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Agents</span>
+                </a>
+                <a href="contrats.html">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Contrats</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="header-left">
+                    <h1>Gestion des Voitures</h1>
+                    <p>Ajouter, modifier et gérer le parc automobile</p>
+                </div>
+                <div class="header-right">
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Retour au Dashboard
+                    </a>
+                </div>
+            </header>
+
+            <!-- Formulaire d'ajout -->
+            <div class="form-section">
+                <h2><i class="fas fa-plus-circle"></i> Ajouter une nouvelle voiture</h2>
+                <form id="formVoiture">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="matricule">Matricule *</label>
+                            <input type="text" id="matricule" class="form-control" 
+                                   placeholder="Ex: 1234-AB-56" required>
+                            <small class="form-text">Format: 1234-AB-56</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="marque">Marque *</label>
+                            <div class="select-with-input">
+                                <select id="marque-select" class="form-control" onchange="handleMarqueSelect()">
+                                    <option value="">Choisir une marque...</option>
+                                    <option value="Dacia">Dacia</option>
+                                    <option value="Renault">Renault</option>
+                                    <option value="Peugeot">Peugeot</option>
+                                    <option value="Citroën">Citroën</option>
+                                    <option value="Toyota">Toyota</option>
+                                    <option value="Volkswagen">Volkswagen</option>
+                                    <option value="Mercedes">Mercedes</option>
+                                    <option value="other">Autre...</option>
+                                </select>
+                                <input type="text" id="marque-input" class="form-control" 
+                                       placeholder="Précisez la marque" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modele">Modèle *</label>
+                            <input type="text" id="modele" class="form-control" 
+                                   placeholder="Ex: Sandero Stepway" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="prix">Prix journalier (MAD) *</label>
+                            <input type="number" id="prix" class="form-control" 
+                                   step="0.01" min="0" placeholder="150.00" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="etat">État *</label>
+                            <select id="etat" class="form-control" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Louée">Louée</option>
+                                <option value="En maintenance">En maintenance</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="kilometrage">Kilométrage (km)</label>
+                            <input type="number" id="kilometrage" class="form-control" 
+                                   min="0" placeholder="32850">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="ajouterVoiture()">
+                            <i class="fas fa-save"></i> Enregistrer
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Réinitialiser
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Liste des voitures -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2><i class="fas fa-list"></i> Liste des voitures</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchVoiture" placeholder="Rechercher par marque ou modèle..." 
+                               onkeyup="rechercherVoiture()">
+                    </div>
+                </div>
+                
+                <table class="table" id="tableVoitures">
+                    <thead>
+                        <tr>
+                            <th>Matricule</th>
+                            <th>Marque</th>
+                            <th>Modèle</th>
+                            <th>Prix/jour</th>
+                            <th>État</th>
+                            <th>Kilométrage</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les données seront insérées par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour modifier kilométrage -->
+    <div id="modalKilometrage" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-tachometer-alt"></i> Modifier le kilométrage</h3>
+                <button class="modal-close" onclick="closeModal('modalKilometrage')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formKilometrage">
+                    <input type="hidden" id="edit-matricule">
+                    <div class="form-group">
+                        <label for="edit-kilometrage">Nouveau kilométrage (km)</label>
+                        <input type="number" id="edit-kilometrage" class="form-control" 
+                               min="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modalKilometrage')">
+                    Annuler
+                </button>
+                <button class="btn btn-primary" onclick="updateKilometrage()">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/voitures.js"></script>
+</body>
+</html>

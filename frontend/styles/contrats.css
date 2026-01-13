@@ -1,0 +1,48 @@
+/* Contrats Specific Styles */
+.info-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-top: 5px;
+}
+
+.info-box small {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #495057;
+}
+
+.calculator-btn {
+    background: #20c997;
+    color: white;
+}
+
+.calculator-btn:hover {
+    background: #199d76;
+}
+
+/* Table styles for contrats */
+.table td {
+    vertical-align: middle;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Modal specific styles */
+.modal-content {
+    max-width: 800px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,23 @@
+==========================================
+INSTRUCTIONS POUR LE CLIENT
+==========================================
+
+ÉTAPE 1 - VÉRIFIER JAVA :
+- Double-cliquez sur "Verifier_Java.bat"
+- Si Java n'est pas installé, installez-le
+
+ÉTAPE 2 - DÉMARRER L'APPLICATION :
+- Double-cliquez sur "Lancer_Pour_Client.bat"
+- Attendez 30 secondes
+- L'application s'ouvre automatiquement
+
+ÉTAPE 3 - UTILISATION :
+- Utilisez le menu à gauche pour naviguer
+- Toutes les données sont sauvegardées automatiquement
+
+ÉTAPE 4 - ARRÊTER :
+- Fermez simplement le navigateur
+
+==========================================
+SUPPORT : 01 23 45 67 89
+==========================================

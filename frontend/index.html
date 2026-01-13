@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastCar - Dashboard</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <h2>FastCar<span>Location</span></h2>
+            </div>
+            <nav>
+                <a href="index.html" class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="voitures.html">
+                    <i class="fas fa-car"></i>
+                    <span>Voitures</span>
+                </a>
+                <a href="clients.html">
+                    <i class="fas fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="agents.html">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Agents</span>
+                </a>
+                <a href="contrats.html">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Contrats</span>
+                </a>
+                <a href="#" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+            <div class="version">v1.0</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header>
+                <div class="header-left">
+                    <h1>Tableau de Bord</h1>
+                    <p>Gestion complète de location de voitures</p>
+                </div>
+                <div class="header-right">
+                    <div class="date-display">
+                        <i class="far fa-calendar"></i>
+                        <span id="current-date"></span>
+                    </div>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Administrateur</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-voitures">0</h3>
+                        <p>Voitures Total</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="voitures-disponibles">0</h3>
+                        <p>Disponibles</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card orange">
+                    <div class="stat-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="voitures-louees">0</h3>
+                        <p>Voitures Louées</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card red">
+                    <div class="stat-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="voitures-maintenance">0</h3>
+                        <p>En Maintenance</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-clients">0</h3>
+                        <p>Clients</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card teal">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-agents">0</h3>
+                        <p>Agents</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card yellow">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-contrats">0</h3>
+                        <p>Contrats</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card dark-blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="taux-occupation">0%</h3>
+                        <p>Taux d'Occupation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Activité Récente</h2>
+                    <button class="btn-refresh" onclick="loadDashboard()">
+                        <i class="fas fa-sync-alt"></i> Actualiser
+                    </button>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Nouvelle voiture ajoutée</h4>
+                            <p>Dacia Sandero - 1234-AB-56</p>
+                            <span class="activity-time">Il y a 2 heures</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon warning">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Contrat signé</h4>
+                            <p>LOC-2024-08921 - Karim EL FADLI</p>
+                            <span class="activity-time">Il y a 4 heures</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Nouveau client</h4>
+                            <p>Mohamed AMINE - L123456</p>
+                            <span class="activity-time">Il y a 1 jour</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2><i class="fas fa-bolt"></i> Actions Rapides</h2>
+                <div class="actions-grid">
+                    <a href="voitures.html" class="action-btn">
+                        <i class="fas fa-car"></i>
+                        <span>Ajouter Voiture</span>
+                    </a>
+                    <a href="clients.html" class="action-btn">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Nouveau Client</span>
+                    </a>
+                    <a href="contrats.html" class="action-btn">
+                        <i class="fas fa-file-signature"></i>
+                        <span>Créer Contrat</span>
+                    </a>
+                    <a href="#" class="action-btn" onclick="generateReport()">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Rapport Mensuel</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <p>© 2024 FastCar Location - Système de Gestion | Développé par [Votre Nom]</p>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-question-circle"></i> Aide</a>
+                    <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/dashboard.js"></script>
+</body>
+</html>

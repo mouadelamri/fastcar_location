@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastCar - Gestion des Contrats</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/contrats.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <h2>FastCar<span>Location</span></h2>
+            </div>
+            <nav>
+                <a href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="voitures.html">
+                    <i class="fas fa-car"></i>
+                    <span>Voitures</span>
+                </a>
+                <a href="clients.html">
+                    <i class="fas fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="agents.html">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Agents</span>
+                </a>
+                <a href="contrats.html" class="active">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Contrats</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="header-left">
+                    <h1>Gestion des Contrats</h1>
+                    <p>Créer et gérer les contrats de location</p>
+                </div>
+                <div class="header-right">
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Retour au Dashboard
+                    </a>
+                </div>
+            </header>
+
+            <!-- Formulaire de création -->
+            <div class="form-section">
+                <h2><i class="fas fa-file-contract"></i> Nouveau Contrat</h2>
+                <form id="formContrat">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="numContrat">N° Contrat *</label>
+                            <div class="input-with-button">
+                                <input type="text" id="numContrat" class="form-control" 
+                                       placeholder="Ex: LOC-2024-00001" required readonly>
+                                <button type="button" class="btn btn-info" onclick="generateContratNumber()">
+                                    <i class="fas fa-sync-alt"></i> Générer
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dateDebut">Date début *</label>
+                            <input type="date" id="dateDebut" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dateFin">Date fin *</label>
+                            <input type="date" id="dateFin" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="montantT">Montant total (MAD) *</label>
+                            <input type="number" id="montantT" class="form-control" 
+                                   step="0.01" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modePaiement">Mode de paiement *</label>
+                            <select id="modePaiement" class="form-control" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="Espèce">Espèce</option>
+                                <option value="Carte">Carte</option>
+                                <option value="Virement">Virement</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="numAgent">Agent *</label>
+                            <select id="numAgent" class="form-control" required onchange="loadAgentInfo()">
+                                <option value="">Sélectionner un agent...</option>
+                            </select>
+                            <div id="agent-info" class="info-box" style="display: none;">
+                                <small><i class="fas fa-user"></i> <span id="agent-nom"></span></small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="matricule">Voiture *</label>
+                            <select id="matricule" class="form-control" required onchange="loadVoitureInfo()">
+                                <option value="">Sélectionner une voiture...</option>
+                            </select>
+                            <div id="voiture-info" class="info-box" style="display: none;">
+                                <small><i class="fas fa-car"></i> <span id="voiture-details"></span></small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cinCli">Client *</label>
+                            <select id="cinCli" class="form-control" required onchange="loadClientInfo()">
+                                <option value="">Sélectionner un client...</option>
+                            </select>
+                            <div id="client-info" class="info-box" style="display: none;">
+                                <small><i class="fas fa-user"></i> <span id="client-nom"></span></small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="ajouterContrat()">
+                            <i class="fas fa-save"></i> Créer Contrat
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="calculerMontant()">
+                            <i class="fas fa-calculator"></i> Calculer Montant
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Réinitialiser
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Liste des contrats -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2><i class="fas fa-list"></i> Liste des contrats</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchContrat" placeholder="Rechercher par numéro, client ou voiture..." 
+                               onkeyup="rechercherContrat()">
+                    </div>
+                </div>
+                
+                <table class="table" id="tableContrats">
+                    <thead>
+                        <tr>
+                            <th>N° Contrat</th>
+                            <th>Client</th>
+                            <th>Voiture</th>
+                            <th>Période</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les données seront insérées par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour modifier contrat -->
+    <div id="modalEditContrat" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Modifier Contrat</h3>
+                <button class="modal-close" onclick="closeModal('modalEditContrat')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditContrat">
+                    <input type="hidden" id="edit-numContrat">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>N° Contrat</label>
+                            <input type="text" id="edit-display-numContrat" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Date début *</label>
+                            <input type="date" id="edit-dateDebut" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date fin *</label>
+                            <input type="date" id="edit-dateFin" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Montant total (MAD) *</label>
+                            <input type="number" id="edit-montantT" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mode de paiement *</label>
+                            <select id="edit-modePaiement" class="form-control" required>
+                                <option value="Espèce">Espèce</option>
+                                <option value="Carte">Carte</option>
+                                <option value="Virement">Virement</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modalEditContrat')">
+                    Annuler
+                </button>
+                <button class="btn btn-primary" onclick="updateContrat()">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/contrats.js"></script>
+</body>
+</html>

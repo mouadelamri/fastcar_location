@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastCar - Facture</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles spécifiques à la facture */
+        .facture-page {
+            background: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        .facture-header {
+            text-align: center;
+            border-bottom: 3px solid #4361ee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .facture-header h1 {
+            color: #2b2d42;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .facture-header h2 {
+            color: #4361ee;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .facture-section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .facture-section h3 {
+            color: #2b2d42;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .facture-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+        }
+        
+        .info-item strong {
+            display: inline-block;
+            width: 150px;
+            color: #495057;
+        }
+        
+        .cachet-section {
+            margin: 40px 0;
+            padding: 30px;
+            border: 2px dashed #adb5bd;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cachet-section p {
+            margin: 5px 0;
+            color: #6c757d;
+        }
+        
+        .signature-area {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-line {
+            width: 250px;
+            text-align: center;
+            padding-top: 60px;
+        }
+        
+        .signature-line span {
+            display: block;
+            border-top: 1px solid #000;
+            padding-top: 5px;
+        }
+        
+        .footer-info {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .facture-page {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .buttons-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar no-print">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <h2>FastCar<span>Location</span></h2>
+            </div>
+            <nav>
+                <a href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="contrats.html">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Contrats</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header class="no-print">
+                <div class="header-left">
+                    <h1>Facture de Location</h1>
+                    <p>Générer et imprimer les factures</p>
+                </div>
+                <div class="header-right">
+                    <a href="contrats.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Retour aux Contrats
+                    </a>
+                </div>
+            </header>
+
+            <!-- Contenu de la facture -->
+            <div class="facture-page" id="facture-content">
+                <!-- En-tête de la facture -->
+                <div class="facture-header">
+                    <h1>FACTURE DE LOCATION</h1>
+                    <h2>AGENCE FASTCAR LOCATION</h2>
+                    <p>Bd Mohammed V, Casablanca | Tél: 05 22 33 44 55</p>
+                    <p>RC: 123456 | Patente: 78901234 | IF: 98765432</p>
+                </div>
+
+                <!-- Section CONTRAT -->
+                <div class="facture-section">
+                    <h3><i class="fas fa-file-contract"></i> CONTRAT</h3>
+                    <div class="facture-info">
+                        <div class="info-item">
+                            <strong>N° Contrat :</strong> <span id="facture-num">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Date début :</strong> <span id="facture-debut">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Date fin :</strong> <span id="facture-fin">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Montant total :</strong> <span id="facture-montant">-</span> MAD
+                        </div>
+                        <div class="info-item">
+                            <strong>Mode de paiement :</strong> <span id="facture-paiement">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section CLIENT -->
+                <div class="facture-section">
+                    <h3><i class="fas fa-user"></i> CLIENT</h3>
+                    <div class="facture-info">
+                        <div class="info-item">
+                            <strong>CIN :</strong> <span id="facture-cin">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Nom :</strong> <span id="facture-nom">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Prénom :</strong> <span id="facture-prenom">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Adresse :</strong> <span id="facture-adresse">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Téléphone :</strong> <span id="facture-tel">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email :</strong> <span id="facture-email">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section VOITURE -->
+                <div class="facture-section">
+                    <h3><i class="fas fa-car"></i> VOITURE</h3>
+                    <div class="facture-info">
+                        <div class="info-item">
+                            <strong>Matricule :</strong> <span id="facture-matricule">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Marque :</strong> <span id="facture-marque">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Modèle :</strong> <span id="facture-modele">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Prix journalier :</strong> <span id="facture-prix">-</span> MAD
+                        </div>
+                        <div class="info-item">
+                            <strong>Kilométrage :</strong> <span id="facture-km">-</span> km
+                        </div>
+                        <div class="info-item">
+                            <strong>État :</strong> <span id="facture-etat">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section AGENT -->
+                <div class="facture-section">
+                    <h3><i class="fas fa-user-tie"></i> AGENT</h3>
+                    <div class="facture-info">
+                        <div class="info-item">
+                            <strong>N° Agent :</strong> <span id="facture-agent-num">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Nom :</strong> <span id="facture-agent-nom">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Prénom :</strong> <span id="facture-agent-prenom">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone de cachet vide -->
+                <div class="cachet-section">
+                    <p><strong>Cachet et signature de l'agence :</strong></p>
+                    <p>(Espace réservé pour le cachet officiel)</p>
+                    <p>Date : ________________</p>
+                </div>
+
+                <!-- Zone de signatures -->
+                <div class="signature-area">
+                    <div class="signature-line">
+                        <span>Signature du Client</span>
+                    </div>
+                    <div class="signature-line">
+                        <span>Signature de l'Agent</span>
+                    </div>
+                </div>
+
+                <!-- Pied de page -->
+                <div class="footer-info">
+                    <p>Merci de votre confiance !</p>
+                    <p>Pour toute réclamation, contactez-nous au 05 22 33 44 55</p>
+                    <p>Email: contact@fastcar-location.ma | Site: www.fastcar-location.ma</p>
+                </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="buttons-container no-print">
+                <button class="btn btn-primary" onclick="imprimerFacture()">
+                    <i class="fas fa-print"></i> Imprimer
+                </button>
+                <button class="btn btn-success" onclick="genererPDF()">
+                    <i class="fas fa-download"></i> Télécharger PDF
+                </button>
+                <a href="contrats.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bibliothèques pour PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script src="scripts/main.js"></script>
+    <script src="scripts/facture.js"></script>
+</body>
+</html>
